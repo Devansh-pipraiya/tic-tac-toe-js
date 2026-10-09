@@ -1,0 +1,112 @@
+
+/* ==========================================
+                    RESET
+   ========================================== */
+
+/* Custom Reset based on Josh Comeau */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+*:not(dialog) {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+#root, #__next {
+  isolation: isolate;
+}
+
+
+/* ==========================================
+                    VARIABLES
+   ========================================== */
+
+/* @font-face {
+  font-family: "custom-font";
+  src: url("../assets/custom-font.woff2") format("woff2");
+} */
+
+:root {
+  --font-system: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+  --clr-bg: #f8f7f4;
+  --clr-surface: #ffffff;
+  
+  --clr-primary: #6b7fd4;
+  --clr-accent: #c084a0;
+  
+  --clr-text: #1c1c1e;
+  --clr-text-light: #6b7280;
+  
+  --clr-gray-100: #e2e1de;
+  --clr-gray-300: #b8b6b2;
+
+  --clr-border: #e4e2df;
+}
+
+/* ==========================================
+                    BASE STYLES
+   ========================================== */
+
+body {
+  font-family: var(--font-system);
+  background-color: var(--clr-bg);
+  min-height: 100vh;
+}
+
+
+/* ==========================================
+                    FOOTER
+   ========================================== */
+
+footer > .footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 5px 0;
+  font-size: 1rem;
+  color: var(--clr-text-light);
+}
+footer .github-logo {
+  width: 26px;
+  height: 26px;
+  transition: transform 0.3s ease-in-out;
+  fill:var(--clr-text);
+}
+footer .github-logo:hover {
+  transform: rotate(360deg) scale(1.2);
+}
