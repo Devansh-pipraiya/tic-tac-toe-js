@@ -17,14 +17,20 @@ function Gameboard() {
 		console.log(boardWithCellValues);
 	};
 
+	const dropToken = (row, column, player) => {
+		board[row][column].addToken(player);
+		printBoard();
+	};
+
 	return {
 		getBoard,
 		printBoard,
+		dropToken,
 	};
 }
 
 function Cell() {
-	value = " ";
+	let value = " ";
 
 	const addToken = (player) => {
 		value = player;
@@ -37,7 +43,7 @@ function Cell() {
 
 function GameController() {
 	const board = Gameboard();
-	console.log(board.getBoard());
+	// console.log(board.getBoard());
 	board.printBoard();
 
 	const players = [
@@ -50,5 +56,20 @@ function GameController() {
 			token: "O",
 		},
 	];
+
+	let activePlayer = players[0];
+	const switchPlayer = () => {
+		activePlayer = activePlayer === players[0] ? players[1] : players[0];
+	};
+
+	const playRound = (row, column) => {
+		board.dropToken(row, column, activePlayer.token);
+		switchPlayer();
+	};
+
+	return { playRound };
 }
-GameController();
+const game = GameController();
+game.playRound(0, 0);
+game.playRound(0, 1);
+game.playRound(0, 2);
