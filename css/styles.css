@@ -61,19 +61,22 @@ h1, h2, h3, h4, h5, h6 {
 :root {
   --font-system: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
-  --clr-bg: #f8f7f4;
-  --clr-surface: #ffffff;
+  --clr-bg: #222831;
+  --clr-header-bg: #111720;
+  --clr-surface: #393e46;
+  --clr-surface-hover: #4a4f57;
+  --clr-surface-active: #5b5f68;
   
-  --clr-primary: #6b7fd4;
-  --clr-accent: #c084a0;
+  --clr-primary: #fac650;
+  --clr-accent: #00adb5;
   
-  --clr-text: #1c1c1e;
-  --clr-text-light: #6b7280;
+  --clr-text: #eee;
+  --clr-text-light: #b8b6b2;
   
-  --clr-gray-100: #e2e1de;
-  --clr-gray-300: #b8b6b2;
+  --clr-gray-100: #393e46;
+  --clr-gray-300: #5b5f68;
 
-  --clr-border: #e4e2df;
+  --clr-border: #4a4f57;
 }
 
 /* ==========================================
@@ -83,7 +86,34 @@ h1, h2, h3, h4, h5, h6 {
 body {
   font-family: var(--font-system);
   background-color: var(--clr-bg);
+  color: var(--clr-text);
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+}
+
+/* ==========================================
+                    HEADER
+   ========================================== */
+
+header {
+  font-family: "Press Start 2P", var(--font-system);
+  background-color: var(--clr-header-bg);
+  color: var(--clr-primary);
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 35px 0;
+}
+
+/* ==========================================
+                    MAIN
+   ========================================== */
+main{
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:20px;
 }
 
 
@@ -97,7 +127,7 @@ footer > .footer-content {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 5px 0;
+  padding: 9px 0;
   font-size: 1rem;
   color: var(--clr-text-light);
 }
