@@ -17,15 +17,15 @@ function Gameboard() {
 		console.log(boardWithCellValues);
 	};
 
-	const dropToken = (row, column, player) => {
-		board[row][column].addToken(player);
-		printBoard();
-	};
+	const isCellEmpty = (row, column) => board[row][column].getValue() === " ";
+
+	const dropToken = (row, column, player) => board[row][column].addToken(player);
 
 	return {
 		getBoard,
 		printBoard,
 		dropToken,
+		isCellEmpty,
 	};
 }
 
@@ -44,32 +44,46 @@ function Cell() {
 function GameController() {
 	const board = Gameboard();
 	// console.log(board.getBoard());
-	board.printBoard();
+	// board.printBoard();
 
 	const players = [
 		{
-			name: "PlayerOneName",
+			name: "PlayerOne",
 			token: "X",
 		},
 		{
-			name: "PlayerTwoName",
+			name: "PlayerTwo",
 			token: "O",
 		},
 	];
 
 	let activePlayer = players[0];
+
+	const getActivePlayer = () => activePlayer;
+
 	const switchPlayer = () => {
 		activePlayer = activePlayer === players[0] ? players[1] : players[0];
 	};
 
+	const printNewRound = () => {
+		board.printBoard();
+		console.log(`${getActivePlayer().name} Turn`);
+	};
+	printNewRound();
+
 	const playRound = (row, column) => {
-		board.dropToken(row, column, activePlayer.token);
+		if (!board.isCellEmpty(row, column)) {
+			console.log("Token Already Exists Place Again");
+			console.log(`${getActivePlayer().name} Turn`);
+			return;
+		}
+
+		console.log(` dropping ${getActivePlayer().token} Token`);
+		board.dropToken(row, column, getActivePlayer().token);
 		switchPlayer();
+		printNewRound();
 	};
 
-	return { playRound };
+	return { playRound, getActivePlayer };
 }
 const game = GameController();
-game.playRound(0, 0);
-game.playRound(0, 1);
-game.playRound(0, 2);
