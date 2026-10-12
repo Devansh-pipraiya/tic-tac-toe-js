@@ -127,11 +127,33 @@ function GameController() {
 		printNewRound();
 	};
 
-	return { playRound, getActivePlayer };
+	return { playRound, getActivePlayer, getBoard: board.getBoard };
 }
-const game = GameController();
-game.playRound(0, 0);
-game.playRound(1, 1);
-game.playRound(1, 0);
-game.playRound(1, 2);
-game.playRound(2, 0);
+
+function DisplayController() {
+	const game = GameController();
+	const playerTurnElem = document.querySelector(".playerTurn");
+	const headingElem = document.querySelector(".heading");
+	const boardDiv = document.querySelector(".board");
+
+	const updateScreen = () => {
+		const board = game.getBoard();
+		const activePlayer = game.getActivePlayer();
+
+		playerTurnElem.textContent = `${activePlayer.name} (${activePlayer.token}) Turn`;
+		boardDiv.textContent = "";
+		board.forEach((row, rowIndex) => {
+			row.forEach((cell, cellIndex) => {
+				const cellBtn = document.createElement("button");
+				cellBtn.classList.add("cell");
+				cellBtn.dataset.row = rowIndex;
+				cellBtn.dataset.column = cellIndex;
+				cellBtn.textContent = cell.getValue();
+				boardDiv.appendChild(cellBtn);
+			});
+		});
+	};
+	updateScreen();
+	function clickHandler(e) {}
+}
+DisplayController();
