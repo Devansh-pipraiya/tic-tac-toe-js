@@ -21,11 +21,14 @@ function Gameboard() {
 
 	const dropToken = (row, column, player) => board[row][column].addToken(player);
 
+	const isBoardFull = () => board.every((row) => row.every((cell) => cell.getValue() !== " "));
+
 	return {
 		getBoard,
 		printBoard,
 		dropToken,
 		isCellEmpty,
+		isBoardFull,
 	};
 }
 
@@ -73,6 +76,7 @@ function GameController() {
 
 	const checkWinConditions = () => {
 		const isToken = (row, column) => board.getBoard()[row][column].getValue();
+		const token = getActivePlayer().token;
 		const rowAndColumnCheck = () => {
 			for (let i = 0; i < 3; i++) {
 				const arr = [];
@@ -81,26 +85,23 @@ function GameController() {
 					arr.push(isToken(i, j));
 					arr2.push(isToken(j, i));
 				}
-				if (
-					arr.every((value) => value === getActivePlayer().token) ||
-					arr2.every((value) => value === getActivePlayer().token)
-				)
+				if (arr.every((value) => value === token) || arr2.every((value) => value === token))
 					return true;
 				arr.length = 0;
 				arr2.length = 0;
 			}
 		};
 		const diagonalCheck = () => {
-			if (
-				((isToken(0, 0) === isToken(1, 1)) === isToken(2, 2)) === getActivePlayer().token ||
-				((isToken(0, 2) === isToken(1, 1)) === isToken(2, 0)) === getActivePlayer().token
-			)
-				return true;
+			return (
+				(isToken(0, 0) === token && isToken(1, 1) === token && isToken(2, 2) === token) ||
+				(isToken(0, 2) === token && isToken(1, 1) === token && isToken(2, 0) === token)
+			);
 		};
 
 		if (rowAndColumnCheck() || diagonalCheck()) {
-			console.log(getActivePlayer().name, getActivePlayer().token, "WON THE GAME");
-			return true;
+			return "win";
+		} else if (board.isBoardFull()) {
+			return "tie";
 		}
 	};
 
@@ -114,7 +115,14 @@ function GameController() {
 		console.log(` dropping ${getActivePlayer().token} Token`);
 		board.dropToken(row, column, getActivePlayer().token);
 
-		if (checkWinConditions()) return;
+		switch (checkWinConditions()) {
+			case "win":
+				console.log(getActivePlayer().name, getActivePlayer().token, "won");
+				return;
+			case "tie":
+				console.log("its a tie");
+				return;
+		}
 		switchPlayer();
 		printNewRound();
 	};
