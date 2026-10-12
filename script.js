@@ -52,11 +52,11 @@ function GameController() {
 	const players = [
 		{
 			name: "PlayerOne",
-			token: "X",
+			token: "✖️",
 		},
 		{
 			name: "PlayerTwo",
-			token: "O",
+			token: "⭕",
 		},
 	];
 
@@ -118,13 +118,15 @@ function GameController() {
 		switch (checkWinConditions()) {
 			case "win":
 				console.log(getActivePlayer().name, getActivePlayer().token, "won");
-				return;
+				return "win";
 			case "tie":
 				console.log("its a tie");
-				return;
+				return "tie";
+			default:
+				switchPlayer();
+				printNewRound();
+				return "continue";
 		}
-		switchPlayer();
-		printNewRound();
 	};
 
 	return { playRound, getActivePlayer, getBoard: board.getBoard };
@@ -135,7 +137,7 @@ function DisplayController() {
 	const playerTurnElem = document.querySelector(".playerTurn");
 	const headingElem = document.querySelector(".heading");
 	const boardDiv = document.querySelector(".board");
-
+	let gameStatus;
 	const updateScreen = () => {
 		const board = game.getBoard();
 		const activePlayer = game.getActivePlayer();
@@ -152,8 +154,20 @@ function DisplayController() {
 				boardDiv.appendChild(cellBtn);
 			});
 		});
+		if (gameStatus === "win") {
+			headingElem.textContent = `${activePlayer.name} ${activePlayer.token} Won`;
+		}
+		if (gameStatus === "tie") {
+			headingElem.textContent = `Its a TIE`;
+		}
 	};
 	updateScreen();
-	function clickHandler(e) {}
+	boardDiv.addEventListener("click", clickHandler);
+	function clickHandler(e) {
+		const cellRow = e.target.dataset.row;
+		const cellColumn = e.target.dataset.column;
+		gameStatus = game.playRound(cellRow, cellColumn);
+		updateScreen();
+	}
 }
 DisplayController();
