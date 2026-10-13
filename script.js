@@ -143,10 +143,19 @@ function DisplayController() {
 	const headingElem = document.querySelector(".heading");
 	const boardDiv = document.querySelector(".board");
 	let gameStatus;
+
+	const setHeadingText = (text, animate = false) => {
+		headingElem.textContent = text;
+		if (animate) {
+			headingElem.classList.remove("typewriter");
+			void headingElem.offsetWidth; // Trigger reflow so animation restarts reliably
+			headingElem.classList.add("typewriter");
+		}
+	};
+
 	const updateScreen = () => {
 		const board = game.getBoard();
 		const activePlayer = game.getActivePlayer();
-		headingElem.textContent = "Tic Tac Toe";
 		playerTurnElem.textContent = `${activePlayer.name} (${activePlayer.token}) Turn`;
 		boardDiv.textContent = "";
 		board.forEach((row, rowIndex) => {
@@ -160,16 +169,17 @@ function DisplayController() {
 			});
 		});
 		if (gameStatus === "win") {
-			headingElem.textContent = `${activePlayer.name} ${activePlayer.token} Won`;
+			setHeadingText(`${activePlayer.name} ${activePlayer.token} Won!`, true);
 			game.resetGame();
 			resetScreen();
 		}
 		if (gameStatus === "tie") {
-			headingElem.textContent = `Its a TIE`;
+			setHeadingText(`ITS A TIE`, true);
 			game.resetGame();
 			resetScreen();
 		}
 	};
+	setHeadingText("Tic Tac Toe", true);
 	updateScreen();
 	boardDiv.addEventListener("click", clickHandler);
 	function clickHandler(e) {
@@ -179,6 +189,7 @@ function DisplayController() {
 		}
 		const cellRow = e.target.dataset.row;
 		const cellColumn = e.target.dataset.column;
+		if (cellRow === undefined || cellColumn === undefined) return;
 		gameStatus = game.playRound(cellRow, cellColumn);
 		updateScreen();
 	}
@@ -191,6 +202,7 @@ function DisplayController() {
 		playAgainBtn.addEventListener("click", () => {
 			gameStatus = "continue";
 			playAgainBtn.replaceWith(playerTurnElem);
+			setHeadingText("Tic Tac Toe", true);
 			updateScreen();
 		});
 	};
