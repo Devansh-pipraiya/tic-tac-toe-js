@@ -210,8 +210,7 @@ button:focus-visible {
 }
 
 /* Play Again button */
-.play-again-btn,
-main > button:not(.cell) {
+.play-again-btn {
   font-family: "Press Start 2P", var(--font-system);
   font-size: 0.85rem;
   font-weight: bold;
@@ -227,15 +226,13 @@ main > button:not(.cell) {
   box-shadow: 0 5px 0 var(--clr-primary-shadow), 0 8px 20px rgba(250, 198, 80, 0.25);
 }
 
-.play-again-btn:hover,
-main > button:not(.cell):hover {
+.play-again-btn:hover {
   background-color: var(--clr-primary-hover);
   transform: translateY(-2px);
   box-shadow: 0 7px 0 var(--clr-primary-shadow), 0 12px 24px rgba(250, 198, 80, 0.35);
 }
 
-.play-again-btn:active,
-main > button:not(.cell):active {
+.play-again-btn:active {
   background-color: var(--clr-primary);
   transform: translateY(3px);
   box-shadow: 0 2px 0 var(--clr-primary-shadow), inset 0 2px 4px rgba(0, 0, 0, 0.2);
