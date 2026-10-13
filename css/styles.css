@@ -68,6 +68,8 @@ h1, h2, h3, h4, h5, h6 {
   --clr-surface-active: #1e232c;
   
   --clr-primary: #fac650;
+  --clr-primary-hover: #ffd46f;
+  --clr-primary-shadow: #bfa026;
   --clr-accent: #00adb5;
   
   --clr-text: #eee;
@@ -115,9 +117,27 @@ main {
   flex-direction: column;
   align-items: center;
   /* justify-content: center; */
-  gap: 20px;
-  padding: 20px;
+  gap: 30px;
+  padding: 35px 15px 15px 15px;
 }
+
+/* ==========================================
+                    TURN INDICATOR
+   ========================================== */
+
+.playerTurn {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--clr-text);
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================
+                    BOARD
+   ========================================== */
 
 article {
   display: grid;
@@ -131,22 +151,71 @@ article {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45), inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* ==========================================
+                    BUTTONS
+   ========================================== */
+
+/* Base button reset & common behavior */
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.1s ease, transform 0.1s ease, box-shadow 0.08s ease, color 0.1s ease;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 3px;
+}
+
+/* Play Again button */
+.play-again-btn,
+main > button:not(.cell) {
+  font-family: "Press Start 2P", var(--font-system);
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--clr-header-bg);
+  background-color: var(--clr-primary);
+  padding: 14px 28px;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 5px 0 var(--clr-primary-shadow), 0 8px 20px rgba(250, 198, 80, 0.25);
+}
+
+.play-again-btn:hover,
+main > button:not(.cell):hover {
+  background-color: var(--clr-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 var(--clr-primary-shadow), 0 12px 24px rgba(250, 198, 80, 0.35);
+}
+
+.play-again-btn:active,
+main > button:not(.cell):active {
+  background-color: var(--clr-primary);
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 var(--clr-primary-shadow), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Board cell button */
 .cell {
   background-color: var(--clr-surface);
-  border: none;
   border-radius: 10px;
   color: var(--clr-text);
-  font: inherit;
   font-size: 2.5rem;
   font-weight: bold;
-  cursor: pointer;
-  outline: none;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0 5px 0 var(--clr-cell-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition: background-color 0.1s ease, transform 0.1s ease, box-shadow 0.08s ease;
-  user-select: none;
 }
 
 .cell:hover {

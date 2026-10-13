@@ -3,12 +3,15 @@ function Gameboard() {
 	const columns = 3;
 	const board = [];
 
-	for (let i = 0; i < rows; i++) {
-		board[i] = [];
-		for (let j = 0; j < columns; j++) {
-			board[i].push(Cell());
+	const createBoard = () => {
+		for (let i = 0; i < rows; i++) {
+			board[i] = [];
+			for (let j = 0; j < columns; j++) {
+				board[i].push(Cell());
+			}
 		}
-	}
+	};
+	createBoard();
 
 	const getBoard = () => board;
 
@@ -29,6 +32,7 @@ function Gameboard() {
 		dropToken,
 		isCellEmpty,
 		isBoardFull,
+		createBoard,
 	};
 }
 
@@ -46,9 +50,6 @@ function Cell() {
 
 function GameController() {
 	const board = Gameboard();
-	// console.log(board.getBoard());
-	// board.printBoard();
-
 	const players = [
 		{
 			name: "PlayerOne",
@@ -73,6 +74,10 @@ function GameController() {
 		console.log(`${getActivePlayer().name} Turn`);
 	};
 	printNewRound();
+
+	const resetGame = () => {
+		board.createBoard();
+	};
 
 	const checkWinConditions = () => {
 		const isToken = (row, column) => board.getBoard()[row][column].getValue();
@@ -129,7 +134,7 @@ function GameController() {
 		}
 	};
 
-	return { playRound, getActivePlayer, getBoard: board.getBoard };
+	return { playRound, getActivePlayer, getBoard: board.getBoard, resetGame };
 }
 
 function DisplayController() {
@@ -141,7 +146,7 @@ function DisplayController() {
 	const updateScreen = () => {
 		const board = game.getBoard();
 		const activePlayer = game.getActivePlayer();
-
+		headingElem.textContent = "Tic Tac Toe";
 		playerTurnElem.textContent = `${activePlayer.name} (${activePlayer.token}) Turn`;
 		boardDiv.textContent = "";
 		board.forEach((row, rowIndex) => {
@@ -156,18 +161,38 @@ function DisplayController() {
 		});
 		if (gameStatus === "win") {
 			headingElem.textContent = `${activePlayer.name} ${activePlayer.token} Won`;
+			game.resetGame();
+			resetScreen();
 		}
 		if (gameStatus === "tie") {
 			headingElem.textContent = `Its a TIE`;
+			game.resetGame();
+			resetScreen();
 		}
 	};
 	updateScreen();
 	boardDiv.addEventListener("click", clickHandler);
 	function clickHandler(e) {
+		if (gameStatus === "win" || gameStatus === "tie") {
+			resetScreen();
+			return;
+		}
 		const cellRow = e.target.dataset.row;
 		const cellColumn = e.target.dataset.column;
 		gameStatus = game.playRound(cellRow, cellColumn);
 		updateScreen();
 	}
+
+	const resetScreen = () => {
+		const playAgainBtn = document.createElement("button");
+		playAgainBtn.classList.add("play-again-btn");
+		playAgainBtn.textContent = "Play Again";
+		playerTurnElem.replaceWith(playAgainBtn);
+		playAgainBtn.addEventListener("click", () => {
+			gameStatus = "continue";
+			playAgainBtn.replaceWith(playerTurnElem);
+			updateScreen();
+		});
+	};
 }
 DisplayController();
