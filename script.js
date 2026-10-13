@@ -87,6 +87,7 @@ function GameController() {
 
 	// --- Player Management ---
 	const getActivePlayer = () => activePlayer;
+	const getPlayers = () => players;
 
 	const switchPlayer = () => {
 		activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -164,7 +165,7 @@ function GameController() {
 	};
 
 	// --- Public API ---
-	return { playRound, getActivePlayer, getBoard: board.getBoard, resetGame };
+	return { playRound, getActivePlayer, getPlayers, getBoard: board.getBoard, resetGame };
 }
 
 // ==========================================
@@ -177,6 +178,10 @@ function DisplayController() {
 	const playerTurnElem = document.querySelector(".playerTurn");
 	const headingElem = document.querySelector(".heading");
 	const boardDiv = document.querySelector(".board");
+	const renameDialog = document.querySelector("#rename-dialog");
+	const p1Input = document.querySelector("#p1-name");
+	const p2Input = document.querySelector("#p2-name");
+	let btnRow;
 	let gameStatus;
 
 	// --- Helpers ---
@@ -189,18 +194,44 @@ function DisplayController() {
 		}
 	};
 
+	const startNewGame = () => {
+		gameStatus = "continue";
+		btnRow.replaceWith(playerTurnElem);
+		setHeadingText("Tic Tac Toe", true);
+		updateScreen();
+	};
+
+	// --- Rename Dialog ---
+	document.querySelector("#rename-start-btn").addEventListener("click", () => {
+		const players = game.getPlayers();
+		players[0].name = p1Input.value.trim() || "Player One";
+		players[1].name = p2Input.value.trim() || "Player Two";
+		renameDialog.close();
+		startNewGame();
+	});
+	document
+		.querySelector("#rename-cancel-btn")
+		.addEventListener("click", () => renameDialog.close());
+
 	// --- Round Reset ---
 	const resetScreen = () => {
+		btnRow = document.createElement("div");
+		btnRow.classList.add("btn-row");
+
 		const playAgainBtn = document.createElement("button");
 		playAgainBtn.classList.add("play-again-btn");
 		playAgainBtn.textContent = "Play Again";
-		playerTurnElem.replaceWith(playAgainBtn);
-		playAgainBtn.addEventListener("click", () => {
-			gameStatus = "continue";
-			playAgainBtn.replaceWith(playerTurnElem);
-			setHeadingText("Tic Tac Toe", true);
-			updateScreen();
-		});
+
+		const renameBtn = document.createElement("button");
+		renameBtn.classList.add("rename-btn");
+		renameBtn.textContent = "Rename Players";
+
+		btnRow.appendChild(playAgainBtn);
+		btnRow.appendChild(renameBtn);
+		playerTurnElem.replaceWith(btnRow);
+
+		playAgainBtn.addEventListener("click", startNewGame);
+		renameBtn.addEventListener("click", () => renameDialog.showModal());
 	};
 
 	// --- Rendering ---

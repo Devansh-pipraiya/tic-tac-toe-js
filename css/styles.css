@@ -284,3 +284,138 @@ footer .github-logo {
 footer .github-logo:hover {
   transform: rotate(360deg) scale(1.2);
 }
+
+/* ==========================================
+                BTN ROW (Play Again + Rename)
+   ========================================== */
+
+.btn-row {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Rename button — secondary style */
+.rename-btn {
+  cursor: pointer;
+  border: none;
+  padding: 14px 22px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--clr-surface);
+  color: var(--clr-text-light);
+  box-shadow: 0 5px 0 var(--clr-cell-shadow);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease;
+}
+
+.rename-btn:hover {
+  background-color: var(--clr-surface-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 var(--clr-cell-shadow);
+}
+
+.rename-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 var(--clr-cell-shadow);
+}
+
+/* ==========================================
+                RENAME DIALOG
+   ========================================== */
+
+#rename-dialog {
+  border: none;
+  border-radius: 14px;
+  background-color: var(--clr-surface);
+  color: var(--clr-text);
+  padding: 28px 32px;
+  min-width: 280px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  font-family: inherit;
+}
+
+#rename-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+#rename-dialog h2 {
+  font-size: 1.1rem;
+  margin-bottom: 18px;
+  color: var(--clr-primary);
+  text-align: center;
+}
+
+#rename-dialog label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--clr-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  margin-top: 15px;
+}
+
+#rename-dialog input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  font-size: 0.95rem;
+}
+
+#rename-dialog input:focus {
+  outline: 2px solid var(--clr-primary);
+  outline-offset: 2px;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+
+#rename-start-btn {
+  cursor: pointer;
+  border: none;
+  padding: 9px 18px;
+  border-radius: 8px;
+  background-color: var(--clr-primary);
+  color: #000;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+#rename-start-btn:hover {
+  background-color: var(--clr-primary-hover);
+}
+
+#rename-cancel-btn {
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 9px 18px;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--clr-text-light);
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+#rename-cancel-btn:hover {
+  background-color: var(--clr-surface-hover);
+}
